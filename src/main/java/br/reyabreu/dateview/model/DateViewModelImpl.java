@@ -164,6 +164,7 @@ public class DateViewModelImpl implements DateViewModel {
 		Date oldDate = getDate();
 
 		calendar.set(year, month, day);
+                setDefaultTime();
 
 		fireChangeEvent();
 		firePropertyChange("year", oldYear, this.calendar.get(Calendar.YEAR));

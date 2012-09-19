@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.reyabreu.dateview.model;
 
 import java.util.Calendar;
@@ -9,6 +5,8 @@ import java.util.Date;
 import junit.framework.TestCase;
 
 /**
+ * Tests the DateViewModel implementation, as it holds the DateView logic. For
+ * simplicity, getters and setters will be tested together.
  *
  * @author Reynaldo
  */
@@ -33,11 +31,26 @@ public class DateViewModelImplTest extends TestCase {
      */
     public void testAddDay() {
         System.out.println("addDay");
-        int delta = 0;
+
         DateViewModelImpl instance = new DateViewModelImpl();
+
+        //get ourseleves a calendar
+        Calendar cal = Calendar.getInstance();
+        //calendar and instance have the same date
+        instance.setSelected(true);
+        cal.setTime(instance.getDate());
+
+        //add same delta to both
+        int delta = (int) (Math.random() * 30) + 1;
         instance.addDay(delta);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
+        cal.add(Calendar.DATE, delta);
+        assertEquals(cal.getTime(), instance.getDate());
+
+        //test negatives too
+        delta *= -1;
+        instance.addDay(delta);
+        cal.add(Calendar.DATE, delta);
+        assertEquals(cal.getTime(), instance.getDate());
     }
 
     /**
@@ -45,11 +58,26 @@ public class DateViewModelImplTest extends TestCase {
      */
     public void testAddMonth() {
         System.out.println("addMonth");
-        int delta = 0;
+
         DateViewModelImpl instance = new DateViewModelImpl();
+
+        //get ourseleves a calendar
+        Calendar cal = Calendar.getInstance();
+        //calendar and instance have the same date
+        instance.setSelected(true);
+        cal.setTime(instance.getDate());
+
+        int delta = (int) (Math.random() * 12) + 1;
+        //add same delta to both
         instance.addMonth(delta);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        cal.add(Calendar.MONTH, delta);
+        assertEquals(cal.getTime(), instance.getDate());
+
+        //test negatives too
+        delta *= -1;
+        instance.addMonth(delta);
+        cal.add(Calendar.MONTH, delta);
+        assertEquals(cal.getTime(), instance.getDate());
     }
 
     /**
@@ -57,144 +85,157 @@ public class DateViewModelImplTest extends TestCase {
      */
     public void testAddYear() {
         System.out.println("addYear");
-        int delta = 0;
         DateViewModelImpl instance = new DateViewModelImpl();
+
+        //get ourseleves a calendar
+        Calendar cal = Calendar.getInstance();
+
+        //calendar and instance have the same date
+        instance.setSelected(true);
+        cal.setTime(instance.getDate());
+
+        int delta = (int) (Math.random() * 10) + 1;
+        //add same delta to both
         instance.addYear(delta);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        cal.add(Calendar.YEAR, delta);
+        assertEquals(cal.getTime(), instance.getDate());
+
+        //test negatives too
+        delta *= -1;
+        instance.addYear(delta);
+        cal.add(Calendar.YEAR, delta);
+        assertEquals(cal.getTime(), instance.getDate());
     }
 
     /**
-     * Test of getDate method, of class DateViewModelImpl.
+     * Test of getDate and setDate methods, of class DateViewModelImpl.
      */
-    public void testGetDate() {
-        System.out.println("getDate");
+    public void testGetSetDate() {
+        System.out.println("getDate & setDate");
         DateViewModelImpl instance = new DateViewModelImpl();
-        Date expResult = null;
+
+        Calendar cal = Calendar.getInstance();
+
+        //set date on calendar instance at midnight
+        cal.set(1974, 1, 4, 0, 0, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        //get the date from the calendar instance
+        Date expResult = cal.getTime();
+
+        instance.setDate(expResult);
+        instance.setSelected(true);
         Date result = instance.getDate();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
+        assertEquals("getDate & setDate", expResult, result);
+
+        instance.setSelected(false);
+        result = instance.getDate();
+        assertNull("getDate & setDate", result);
     }
 
     /**
-     * Test of getDay method, of class DateViewModelImpl.
+     * Test of getDay and setDay methods, of class DateViewModelImpl.
      */
-    public void testGetDay() {
-        System.out.println("getDay");
+    public void testGetSetDay() {
+        System.out.println("getDay & setDay");
         DateViewModelImpl instance = new DateViewModelImpl();
+
+        //get the calendar instance
         Calendar cal = Calendar.getInstance();
+
+        //set date on calendar instance
+        cal.set(Calendar.DATE, (int) (Math.random() * 20) + 1);
         int expResult = cal.get(Calendar.DATE);
+
+        instance.setDay(expResult);
         int result = instance.getDay();
-        assertEquals(expResult, result);
+        assertEquals("getDay & setDay", expResult, result);
     }
 
     /**
-     * Test of getMonth method, of class DateViewModelImpl.
+     * Test of getMonth and setMonth methods, of class DateViewModelImpl.
      */
-    public void testGetMonth() {
-        System.out.println("getMonth");
+    public void testGetSetMonth() {
+        System.out.println("getMonth & setMonth");
         DateViewModelImpl instance = new DateViewModelImpl();
+
+        //get the calendar instance
         Calendar cal = Calendar.getInstance();
+
+        //set date on calendar instance
+        cal.set(Calendar.MONTH, (int) (Math.random() * 12) + 1);
         int expResult = cal.get(Calendar.MONTH);
+
+        instance.setMonth(expResult);
         int result = instance.getMonth();
-        assertEquals(expResult, result);
+        assertEquals("getMonth & setMonth", expResult, result);
     }
 
     /**
-     * Test of getYear method, of class DateViewModelImpl.
+     * Test of getYear and setYear methods, of class DateViewModelImpl.
      */
-    public void testGetYear() {
-        System.out.println("getYear");
+    public void testGetSetYear() {
+        System.out.println("getYear & setYear");
         DateViewModelImpl instance = new DateViewModelImpl();
+
+        //get the calendar instance
         Calendar cal = Calendar.getInstance();
+
+        //set date on calendar instance
+        cal.set(Calendar.YEAR, (int) (Math.random() * 100) + 1912);
         int expResult = cal.get(Calendar.YEAR);
+
+        instance.setYear(expResult);
         int result = instance.getYear();
-        assertEquals(expResult, result);
+
+        assertEquals("getYear & setYear", expResult, result);
     }
 
     /**
-     * Test of isSelected method, of class DateViewModelImpl.
+     * Test of isSelected and setSelected methods, of class DateViewModelImpl.
      */
-    public void testIsSelected() {
-        System.out.println("isSelected");
+    public void testSetIsSelected() {
+        System.out.println("isSelected & setSelected");
         DateViewModelImpl instance = new DateViewModelImpl();
+
         boolean expResult = false;
         boolean result = instance.isSelected();
-        assertEquals(expResult, result);
+        assertEquals("isSelected & setSelected", expResult, result);
+
+        expResult = true;
+        instance.setSelected(true);
+        result = instance.isSelected();
+        assertEquals("isSelected & setSelected", expResult, result);
     }
 
     /**
-     * Test of setDate method, of class DateViewModelImpl.
-     */
-    public void testSetDate_Date() {
-        System.out.println("setDate");
-        Date date = null;
-        DateViewModelImpl instance = new DateViewModelImpl();
-        instance.setDate(date);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setDate method, of class DateViewModelImpl.
+     * Test of setDate method with 3 arguments, of class DateViewModelImpl.
      */
     public void testSetDate_3args() {
-        System.out.println("setDate");
-        int year = 0;
-        int month = 0;
-        int day = 0;
+        System.out.println("setDate3args");
+        Calendar cal = Calendar.getInstance();
+
+        //set date on calendar instance at midnight
+        cal.set(1974, 1, 4);
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DATE);
+
         DateViewModelImpl instance = new DateViewModelImpl();
         instance.setDate(year, month, day);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-    }
 
-    /**
-     * Test of setDay method, of class DateViewModelImpl.
-     */
-    public void testSetDay() {
-        System.out.println("setDay");
-        int day = 0;
-        DateViewModelImpl instance = new DateViewModelImpl();
-        instance.setDay(day);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-    }
+        Date expResult = cal.getTime();
+        instance.setSelected(true);
+        Date result = instance.getDate();
+        assertEquals("setDate3args", expResult, result);
 
-    /**
-     * Test of setMonth method, of class DateViewModelImpl.
-     */
-    public void testSetMonth() {
-        System.out.println("setMonth");
-        int delta = 0;
-        DateViewModelImpl instance = new DateViewModelImpl();
-        instance.setMonth(delta);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-    }
+        instance.setSelected(false);
+        result = instance.getDate();
+        assertNull("setDate3args", result);
 
-    /**
-     * Test of setSelected method, of class DateViewModelImpl.
-     */
-    public void testSetSelected() {
-        System.out.println("setSelected");
-        boolean selected = false;
-        DateViewModelImpl instance = new DateViewModelImpl();
-        instance.setSelected(selected);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setYear method, of class DateViewModelImpl.
-     */
-    public void testSetYear() {
-        System.out.println("setYear");
-        int year = 0;
-        DateViewModelImpl instance = new DateViewModelImpl();
-        instance.setYear(year);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
     }
 }
