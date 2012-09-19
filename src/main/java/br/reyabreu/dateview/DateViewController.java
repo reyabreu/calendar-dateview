@@ -7,12 +7,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Calendar;
-
 import javax.swing.JTable;
 
 /**
- * This is the Date View controller. It listens and handles UI actions, updating
- * the view model accordingly.
+ * This is the Date View controller. It listens and handles UI and model
+ * actions, updating the view model accordingly.
  *
  * @author Reynaldo
  *
@@ -24,17 +23,24 @@ class DateViewController extends MouseAdapter implements
      *
      */
     private final JDateView dateView;
-    private DateViewModel model;
 
     /**
+     * A DateView instance is required by the controller
+     *
      * @param dateView
      */
     DateViewController(JDateView dateView) {
         this.dateView = dateView;
-        this.model = dateView.getModel();
     }
 
+    /**
+     * This method handles events for the different UI elements in the view,
+     * including buttons, Pop-up menu item selection and the model itself
+     *
+     * @param e
+     */
     public void actionPerformed(ActionEvent e) {
+        DateViewModel model = dateView.getModel();
         if (e.getSource() == dateView.getNextButton()) {
             model.addMonth(1);
         } else if (e.getSource() == dateView.getPreviousButton()) {
@@ -48,17 +54,28 @@ class DateViewController extends MouseAdapter implements
         }
     }
 
+    /**
+     * This method handles mouse events on the DateView.
+     *
+     * @param e
+     */
     @Override
     public void mousePressed(MouseEvent e) {
+        DateViewModel model = dateView.getModel();
+        //displays the month list when clicked on month view
         if (e.getSource() == dateView.getMonthView()) {
             dateView.getMonthPopupMenu().setLightWeightPopupEnabled(false);
             dateView.getMonthPopupMenu().show((Component) e.getSource(), e.getX(),
                     e.getY());
-        } else if (e.getSource() == dateView.getCurrentDateView()) {
+        } else //sets the selected day to 'today' when today label is clicked
+        if (e.getSource() == dateView.getCurrentDateView()) {
             Calendar today = Calendar.getInstance();
             model.setDate(today.get(Calendar.YEAR),
                     today.get(Calendar.MONTH), today.get(Calendar.DATE));
-        } else if (e.getSource() == dateView.getDayTableView()) {
+            model.setSelected(true);
+            dateView.fireSelectionPerformed();
+        } else //this is the actual date selection on the table
+        if (e.getSource() == dateView.getDayTableView()) {
             JTable table = ((JTable) dateView.getDayTableView());
             int row = table.getSelectedRow();
             int col = table.getSelectedColumn();
@@ -68,7 +85,8 @@ class DateViewController extends MouseAdapter implements
                 model.setSelected(true);
                 dateView.fireSelectionPerformed();
             }
-        } else if (e.getSource() == dateView.getUnselectView()) {
+        } else //clears current selection on DateView
+        if (e.getSource() == dateView.getUnselectView()) {
             model.setSelected(false);
             dateView.fireSelectionPerformed();
         }

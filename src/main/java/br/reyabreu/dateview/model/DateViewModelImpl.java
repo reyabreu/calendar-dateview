@@ -9,8 +9,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /**
- * This is the default model for our Date View. Please note this implementation
- * is Locale agnostic.
+ * This is the default model implementation for our Date View.
  *
  * @author rizzor
  *

@@ -5,126 +5,133 @@ import java.util.Date;
 import javax.swing.event.ChangeListener;
 
 /**
- * This is the standard interface of the model. It is assumed that implementations
- * will use Gregorian Dates.
+ * This is the standard interface of the model. It offers a limited set of
+ * operations such as date getters and setters, month addition and a selection
+ * flag. It is assumed that implementations will use Gregorian Dates.
  *
  * @author Reynaldo
  *
  */
 public interface DateViewModel {
 
-	/**
-	 * Adds a Change Listener. Change listeners will be notified of state
-	 * changes in selected date.
-	 *
-	 * @param changeListener
-	 */
-	public void addChangeListener(ChangeListener changeListener);
+    /**
+     * Adds a Change Listener. Change listeners will be notified of state
+     * changes in selected date.
+     *
+     * @param changeListener
+     */
+    public void addChangeListener(ChangeListener changeListener);
 
-	/**
-	 * Add or subtract a number of months.
-	 *
-	 * @param add
-	 */
-	public void addMonth(int delta);
+    /**
+     * Add or subtract a number of months.
+     *
+     * @param add
+     */
+    public void addMonth(int delta);
 
-	/**
-	 * Adds a property listener for all property changes in target Java bean.
-	 *
-	 * @param listener
-	 */
-	public void addPropertyChangeListener(PropertyChangeListener listener);
+    /**
+     * Adds a property listener for all property changes in target Java bean.
+     *
+     * @param listener
+     */
+    public void addPropertyChangeListener(PropertyChangeListener listener);
 
-	/**
-	 * Getter for the current date as a Date.
-	 *
-	 * @return java.util.Date
-	 */
-	public Date getDate();
+    /**
+     * Getter for current date
+     *
+     * @return Date
+     */
+    public Date getDate();
 
-	/**
-	 *
-	 * @return
-	 */
-	public int getDay();
+    /**
+     * Getter for current day of the month
+     *
+     * @return
+     */
+    public int getDay();
 
-	/**
-	 *
-	 * @return
-	 */
-	public int getMonth();
+    /**
+     *
+     * Getter for current month
+     *
+     * @return
+     */
+    public int getMonth();
 
-	/**
-	 *
-	 * @return
-	 */
-	public int getYear();
+    /**
+     * Getter for current year
+     *
+     * @return
+     */
+    public int getYear();
 
-	/**
-	 * Informs if there is an active date selection.
-	 *
-	 * @return boolean
-	 */
-	public boolean isSelected();
+    /**
+     * Informs if there is an active date selection.
+     *
+     * @return boolean
+     */
+    public boolean isSelected();
 
-	/**
-	 * Removes a Change Listener. Change listeners will be notified of state
-	 * changes in selected date.
-	 *
-	 * @param changeListener
-	 */
-	public void removeChangeListener(ChangeListener changeListener);
+    /**
+     * Removes a Change Listener. Change listeners will be notified of state
+     * changes in selected date.
+     *
+     * @param changeListener
+     */
+    public void removeChangeListener(ChangeListener changeListener);
 
-	/**
-	 * Removes property listener for all property changes in target java bean
-	 *
-	 * @param listener
-	 */
-	public void removePropertyChangeListener(PropertyChangeListener listener);
+    /**
+     * Removes property listener for all property changes in target java bean
+     *
+     * @param listener
+     */
+    public void removePropertyChangeListener(PropertyChangeListener listener);
 
-	/**
-	 * Setter for the current date as a java.util.Date.
-	 *
-	 * @param date
-	 * @see #java.util.Date
-	 */
-	public void setDate(Date date);
+    /**
+     * Setter for current date
+     *
+     * @param date
+     * @see Date
+     */
+    public void setDate(Date date);
 
-	/**
-	 * Sets current date as specified by supplied parameters. Parameters are
-	 * expected to be consistent with java.util.Calendar.
-	 *
-	 * @param year
-	 * @param month
-	 * @param day
-	 *
-	 * @see #java.util.Calendar
-	 */
-	public void setDate(int year, int month, int day);
+    /**
+     * Sets current date as specified by provided year, month and day.
+     * Parameters are expected to be consistent with Calendar rules.
+     *
+     * @param year
+     * @param month
+     * @param day
+     *
+     * @see Calendar
+     */
+    public void setDate(int year, int month, int day);
 
-	/**
-	 *
-	 * @return
-	 */
-	public void setDay(int day);
+    /**
+     * Setter for current day of the month
+     *
+     * @return
+     */
+    public void setDay(int day);
 
-	/**
-	 *
-	 * @return
-	 */
-	public void setMonth(int month);
+    /**
+     * Setter for current month
+     *
+     * @return
+     */
+    public void setMonth(int month);
 
-	/**
-	 * Makes current date selection active or inactive.
-	 *
-	 * @param selected
-	 */
-	public void setSelected(boolean selected);
+    /**
+     * Makes current date selection active or inactive.
+     *
+     * @param selected
+     */
+    public void setSelected(boolean selected);
 
-	/**
-	 *
-	 * @return
-	 */
-	public void setYear(int year);
-
+    /**
+     * Setter for current year
+     *
+     * @return
+     */
+    public void setYear(int year);
 }

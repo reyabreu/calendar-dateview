@@ -28,6 +28,13 @@ import javax.swing.table.TableColumn;
  */
 public class JDateView extends JPanel {
 
+    /**
+     * Performs actual rendering of each cell in the JTable of the Date View.
+     * nested if..else conditions determine the actual visual representation of
+     * each cell.
+     *
+     * @author Reynaldo
+     */
     protected class InternalTableCellRenderer extends DefaultTableCellRenderer {
 
         private static final int WEEKDAY_ROW = -1;
@@ -93,7 +100,7 @@ public class JDateView extends JPanel {
                 }
             } // Current month days
             else {
-                label.setForeground(SystemColor.infoText);
+                label.setForeground(SystemColor.blue);
                 label.setBackground(SystemColor.info);
 
                 // Display Today with a different color scheme
@@ -101,6 +108,7 @@ public class JDateView extends JPanel {
                         && todayCal.get(Calendar.MONTH) == model.getMonth()
                         && todayCal.get(Calendar.YEAR) == model.getYear()) {
                     label.setFont(table.getFont().deriveFont(Font.BOLD));
+                    label.setForeground(SystemColor.RED);
 
                     // today is selected
                     if (model.isSelected() && isCurrentDate) {
@@ -141,7 +149,6 @@ public class JDateView extends JPanel {
     private JButton previousButton;
     private JSpinner yearSpinner;
     private Properties uiStrings;
-
     DateViewModelHelper internalModel;
 
     public JDateView(DateViewModel model) {
@@ -159,10 +166,13 @@ public class JDateView extends JPanel {
         actListeners.add(actListener);
     }
 
+    /**
+     * Builds and arrange all UI elements in the Date View
+     */
     private void buildCalendarView() {
         this.setLayout(new BorderLayout());
-        this.setSize(640, 240);
-        this.setPreferredSize(new Dimension(640, 240));
+        this.setSize(640, 320);
+        this.setPreferredSize(new Dimension(640, 320));
         this.setBackground(SystemColor.activeCaptionText);
         this.setOpaque(false);
         this.add(getHeaderView(), BorderLayout.NORTH);
@@ -174,6 +184,9 @@ public class JDateView extends JPanel {
         return new DateViewModelImpl();
     }
 
+    /**
+     * Notifies action listeners whenever a selection happens in Date View
+     */
     void fireSelectionPerformed() {
         for (ActionListener actionListener : actListeners) {
             actionListener.actionPerformed(new ActionEvent(this,
@@ -181,6 +194,11 @@ public class JDateView extends JPanel {
         }
     }
 
+    /**
+     * Creates or returns the panel that contains the days table and its header
+     *
+     * @return
+     */
     Component getCenterView() {
         if (centerPanel == null) {
             centerPanel = new JPanel();
@@ -192,6 +210,11 @@ public class JDateView extends JPanel {
         return centerPanel;
     }
 
+    /**
+     * Creates or returns the panel for the Month name view and Year spinner
+     *
+     * @return
+     */
     Component getCentralHeaderView() {
         if (centralHeaderPanel == null) {
             centralHeaderPanel = new JPanel();
@@ -205,6 +228,11 @@ public class JDateView extends JPanel {
         return centralHeaderPanel;
     }
 
+    /**
+     * Creates or returns the "Today" date label
+     *
+     * @return
+     */
     Component getCurrentDateView() {
         if (currentDateLabel == null) {
             currentDateLabel = new JLabel();
@@ -226,6 +254,11 @@ public class JDateView extends JPanel {
         return dayTableCellRenderer;
     }
 
+    /**
+     * Creates or returns the days table
+     *
+     * @return
+     */
     Component getDayTableView() {
         if (dayTable == null) {
             dayTable = new JTable();
@@ -246,6 +279,10 @@ public class JDateView extends JPanel {
         return dayTable;
     }
 
+    /**
+     * Sets or returns the table header component (week days)
+     * @return
+     */
     Component getDayTableViewHeader() {
         if (dayTableHeader == null) {
             dayTableHeader = ((JTable) getDayTableView()).getTableHeader();
@@ -257,6 +294,12 @@ public class JDateView extends JPanel {
         return dayTableHeader;
     }
 
+    /**
+     * A crude way to store the hard coded strings that show up on DateView. A
+     * better way is to internationalize these.
+     *
+     * @return
+     */
     private Properties getDefaultStrings() {
         Properties defaults = new Properties();
         defaults.put("dateview.today", "Today");
@@ -268,6 +311,12 @@ public class JDateView extends JPanel {
         return defaults;
     }
 
+    /**
+     * Creates or returns the panel that holds the month view and year spinner
+     * (and navigation buttons)
+     *
+     * @return
+     */
     Component getHeaderView() {
         if (headerPanel == null) {
             headerPanel = new JPanel();
@@ -277,7 +326,7 @@ public class JDateView extends JPanel {
             headerPanel.add(getPreviousButton(), java.awt.BorderLayout.WEST);
             headerPanel.add(getCentralHeaderView(),
                     java.awt.BorderLayout.CENTER);
-            headerPanel.add(getNextButton(), java.awt.BorderLayout.EAST);
+            headerPanel.add(getNextButton(), BorderLayout.EAST);
         }
         return headerPanel;
     }
@@ -286,6 +335,10 @@ public class JDateView extends JPanel {
         return internalModel.getModel();
     }
 
+    /**
+     * The month Pop-Up menu
+     * @return
+     */
     JPopupMenu getMonthPopupMenu() {
         if (monthPopupMenu == null) {
             monthPopupMenu = new JPopupMenu();
@@ -297,6 +350,10 @@ public class JDateView extends JPanel {
         return monthPopupMenu;
     }
 
+    /**
+     * Creates or returns the month names menu items
+     * @return
+     */
     JMenuItem[] getMonthPopupMenuItems() {
         if (monthPopupMenuItems == null) {
             DateFormatSymbols df = new DateFormatSymbols();
@@ -311,6 +368,10 @@ public class JDateView extends JPanel {
         return monthPopupMenuItems;
     }
 
+    /**
+     * Creates or returns the month name label
+     * @return
+     */
     Component getMonthView() {
         if (monthLabel == null) {
             monthLabel = new JLabel();
@@ -322,6 +383,10 @@ public class JDateView extends JPanel {
         return monthLabel;
     }
 
+    /**
+     * Creates or returns the right-wise navigation button
+     * @return
+     */
     JButton getNextButton() {
         if (nextButton == null) {
             nextButton = new JNavigationButton(4, 7, SwingConstants.RIGHT);
@@ -332,6 +397,10 @@ public class JDateView extends JPanel {
         return nextButton;
     }
 
+    /**
+     * Creates or returns the left-wise navigation button
+     * @return
+     */
     JButton getPreviousButton() {
         if (previousButton == null) {
             previousButton = new JNavigationButton(4, 7, SwingConstants.LEFT);
@@ -342,6 +411,10 @@ public class JDateView extends JPanel {
         return previousButton;
     }
 
+    /**
+     * Creates or returns the lower panel view
+     * @return
+     */
     Component getStatusBarView() {
         if (statusBarPanel == null) {
             statusBarPanel = new JPanel();
@@ -354,6 +427,10 @@ public class JDateView extends JPanel {
         return statusBarPanel;
     }
 
+    /**
+     * Creates or returns the the "clear" label
+     * @return
+     */
     Component getUnselectView() {
         if (unselectLabel == null) {
             unselectLabel = new JLabel();
@@ -364,6 +441,10 @@ public class JDateView extends JPanel {
         return unselectLabel;
     }
 
+    /**
+     * Creates or returns the Year Spinner
+     * @return
+     */
     Component getYearView() {
         if (yearSpinner == null) {
             yearSpinner = new JSpinner();
