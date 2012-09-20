@@ -3,7 +3,6 @@ package br.reyabreu.dateview;
 import br.reyabreu.dateview.model.DateViewModel;
 import br.reyabreu.dateview.model.DateViewModelImpl;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
